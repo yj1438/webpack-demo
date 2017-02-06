@@ -1,9 +1,10 @@
 /**
  * 生产环境发布方法
  */
-const webpack = require('webpack'),
-    path = require('path'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebpackMd5Hask = require('webpack-md5-hash');
 /**
  * 此 webpack 构建可支持最新的 ES6/7 + reactjs
  * 确定一个入口文件后，进行完整的依赖打包：
@@ -52,7 +53,7 @@ module.exports = {
     output: {
         path: buildPath,       //输出路径
         publicPath: '',                             //src 的 base 路径
-        filename: './[name].js',      //输出的文件名
+        filename: './[name].[chunkhash].js',      //输出的文件名
     },
     plugins: [
         /*
@@ -96,6 +97,8 @@ module.exports = {
             manifest: require(path.join(__dirname, 'dist', 'router-manifest.json')),
         }),
         // ============================== dllreference end ====================================
+        // 真正的文件 md5 hash
+        new WebpackMd5Hask(),
         // 去重
         new webpack.optimize.DedupePlugin(),
         // 根据使用率来预测分配序列
@@ -112,7 +115,7 @@ module.exports = {
         //只报出错误或警告，但不会终止编译，建议如果是开发环境可以把这一项去掉
         // new webpack.NoErrorsPlugin(),
         //输出 CSS 文件
-        new ExtractTextPlugin('./[name]_[chunkhash:8].css'),
+        new ExtractTextPlugin('./[name].[chunkhash].css'),
     ],
     module: {
         //eslint
@@ -129,7 +132,7 @@ module.exports = {
             //压缩图片，不过这个压缩很慢，先不加了"!img-loader?minimize",
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                loader: "url-loader?limit=8192&name=./[name].[ext]?[hash]",
+                loader: "url-loader?limit=8192&name=./[name].[ext]?[chunkhash]",
             },
             //外置样式打包
             {
