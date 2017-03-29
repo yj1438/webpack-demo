@@ -102,19 +102,13 @@ module.exports = function (env) {
                     test: /\.(js|jsx)$/,
                     loader: 'react-hot-loader',
                     include: [path.join(__dirname, '/src')],
-                    exclude: function (filePath) {
-                        const isNpmModule = !!filePath.match(/node_modules/);
-                        return isNpmModule;
-                    },
+                    exclude: [/node_modules/],
                 },
                 {
                     test: /\.(js|jsx)$/,
                     loader: 'babel-loader',
                     include: [path.join(__dirname, '/src')],
-                    exclude: function (filePath) {
-                        const isNpmModule = !!filePath.match(/node_modules/);
-                        return isNpmModule;
-                    },
+                    exclude: [/node_modules/],
                     query: {
                         plugins: ['transform-runtime', 'transform-decorators-legacy', 'transform-class-properties'],
                         presets: ['es2015', 'react'],

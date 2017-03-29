@@ -37,6 +37,7 @@ module.exports = function (env) {
             // ============= for CommonsChunkPlugin end =============
             app: path.join(__dirname, 'src', projectEntryFile),
         },
+        //入口文件配置解析类型
         resolve: {
             extensions: ['.js', '.jsx'],
             modules: [ 'node_modules' ],
