@@ -39,7 +39,7 @@ if (argv[3] && argv[3] === '--watch') {
  */
 const execCommand = 'webpack --config webpack-production.config.js --progress --colors' +
                     (isWatch ? ' --watch' : '') +
-                    ' --path ' + pathArr.join('/');
+                    ' --env.app=' + pathArr.join('/');
 const params = execCommand.split(' ');
 params.shift(0);
 console.log(params);

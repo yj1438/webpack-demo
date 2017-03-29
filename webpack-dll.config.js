@@ -6,8 +6,10 @@
 const path = require('path'),
     webpack = require('webpack');
 
+const WebpackMd5Hash = require('webpack-md5-hash');
+
 // dist 路径相关
-const distPath = 'dist';
+const distPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
     entry: {
@@ -15,8 +17,8 @@ module.exports = {
         router: [ 'react-router' ],
     },
     output: {
-        path: distPath, //输出路径
-        filename: '[name].dll.js',
+        path: distPath,                         //输出路径, 必须用绝对路径
+        filename: '[name].[chunkhash].dll.js',
         library: '[name]_lib',
     },
     plugins: [
@@ -26,10 +28,6 @@ module.exports = {
                 'NODE_ENV': '"production"',
             },
         }),
-        // 去重插件
-        new webpack.optimize.DedupePlugin(),
-        // 根据使用率来预测分配序列
-        new webpack.optimize.OccurenceOrderPlugin(),
         // DllPlugin 生成公共模块
         new webpack.DllPlugin({
             /*
@@ -53,5 +51,7 @@ module.exports = {
             },
             comments: false,
         }),
+        // 真正的文件 md5 hash
+        new WebpackMd5Hash(),
     ],
 };
