@@ -36,9 +36,12 @@ class Index extends Component {
     }
 }
 
-Index.propTypes = {
 
-};
+
+
+// Index.propTypes = {
+
+// };
 
 export default Index;
 

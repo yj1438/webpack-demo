@@ -97,8 +97,6 @@ module.exports = {
             manifest: require(path.join(__dirname, 'dist', 'router-manifest.json')),
         }),
         // ============================== dllreference end ====================================
-        // 真正的文件 md5 hash
-        new WebpackMd5Hask(),
         // 去重
         new webpack.optimize.DedupePlugin(),
         // 根据使用率来预测分配序列
@@ -114,6 +112,8 @@ module.exports = {
         }),
         //只报出错误或警告，但不会终止编译，建议如果是开发环境可以把这一项去掉
         // new webpack.NoErrorsPlugin(),
+        // 真正的文件 md5 hash
+        new WebpackMd5Hask(),
         //输出 CSS 文件
         new ExtractTextPlugin('./[name].[chunkhash].css'),
     ],
