@@ -1,6 +1,6 @@
 # webpack2-demo
 
-A complete webpack build environment.
+A complete webpack2 build environment.
 
 一套完整的 webpack2 的构建系统搭建。
 
@@ -8,7 +8,7 @@ A complete webpack build environment.
 
 ## 开发环境
 
-开发环境使用的是 webpack-hot-server。
+开发环境使用 webpack-hot-server。
 
 基础启动命令：
 
@@ -29,7 +29,7 @@ http://localhost:9080/app.css
 
 ## 生产环境
 
-一般基础的功能都包含在内。
+一般基础的功能都包含在内，这里就不多说了，可以自己看代码。
 
 基础启动命令：
 
