@@ -8,7 +8,8 @@
 const childProcess = require('child_process'),
     argv = process.argv;
 let pathArr = [],
-    isWatch = false;
+    isWatch = false,
+    isServer = false;
 
 /**
  * 拼接入口文件名
@@ -21,33 +22,44 @@ if (argv[2] && argv[2].indexOf('--') === 0) {
     }
 }
 else {
-    console.log('please input the project\'s name ant main app.js');
+    console.log('please input the project\'s name such as \'$ node wpbuild.js --demo\'');
     return;
 }
 
 /**
  * 是否是监听模式
  */
-if (argv[3] && argv[3] === '--watch') {
+if (argv.indexOf('--serve')) {
+    isServer = true;
+} 
+else if (argv[3] && argv[3] === '--watch') {
     isWatch = true;
-}
+} 
 
 /**
  * 拼接生成命令
  * 因为有监听模式，需要命令执行后挂起，所以用 `spawn` 命令
  *      `spawn` 命令行参数用的是数组 eg.: ['--config', 'webpack-production.config.js']
  */
-const execCommand = 'webpack --config webpack-production.config.js --progress --colors' +
+let execCommand,
+    execCommandBin,
+    execCommandParam;
+if (!isServer) {
+    execCommand = 'webpack --config webpack-production.config.js --progress --colors' +
                     (isWatch ? ' --watch' : '') +
                     ' --env.app=' + pathArr.join('/');
+} else {
+    execCommand = 'webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors --env.app=' + pathArr.join('/');
+}
 const params = execCommand.split(' ');
-params.shift(0);
-console.log(params);
+execCommandBin = params.shift(0);
+execCommandParam = params;
+console.log(execCommandBin, execCommandParam);
 
 /**
  * 开始执行命令
  */
-const cmdProcess = childProcess.spawn('webpack', params);
+const cmdProcess = childProcess.spawn(execCommandBin, execCommandParam);
 
 cmdProcess.stdout.on('data', (data) => {
     console.log('cmdProcess data printout: ');

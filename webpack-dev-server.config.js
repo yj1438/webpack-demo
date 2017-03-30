@@ -5,23 +5,27 @@ const webpack = require('webpack'),
     path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-/**
- * 需要构建项目的入口文件
- * 想对于当前目录
- */
-//===========================================
-const enterFile = 'demo/app.jsx';
-//===========================================
-
 module.exports = function (env) {
-    // console.log(env);    // for --env.production
+    let projectEntryFile = env.app;
+    if (!projectEntryFile) {
+        console.log('缺少入口文件，请添加参数: --env.path=<项目入口文件/目录>');
+        return null;
+    }
+    const projectPathArr = projectEntryFile.split('/');
+    if (projectPathArr.length === 1 || !projectPathArr[1]) {
+        projectPathArr[1] = 'app.jsx';
+    }
+    projectEntryFile = projectPathArr.join('/');
+    console.log('开始构建文件：' + projectEntryFile);
+
     return {
         //总入口文件
         context: path.resolve(__dirname, "src"),
         entry: {
-            app: './' + enterFile,
+            app: './' + projectEntryFile,
         },
         output: {
+            // path: ''                     // server 不用指定path
             publicPath: '',                 // 引用资源文件的base路径
             filename: './[name].js',        //输出文件名
         },
@@ -71,7 +75,7 @@ module.exports = function (env) {
                 {
                     test: /\.jpe?g$|\.gif$|\.png$/i,
                     loader: 'url-loader',
-                    options:  { limit: 8192, name: './[name].[ext]' },
+                    query:  { limit: 8192, name: './[name].[ext]' },
                 },
                 //外置样式打包
                 {
