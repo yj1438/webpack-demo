@@ -7,7 +7,7 @@ import Error from './components/error';
 
 const routers = (
     <Route path="/">
-        <Route path="/(:base)/demo" component={Frame}>
+        <Route path="/demo.html" component={Frame}>
             <IndexRoute component={Index} />
             <Route path="index" component={Index} />
         </Route>
