@@ -50,7 +50,7 @@ module.exports = function (env) {
             contentBase: path.join(__dirname, "www"),   //发布目录
             hot: true,                                  //Live-reload 对应 'webpack/hot/dev-server'
             // hotOnly: true,                           //Live-reload 对应 'webpack/hot/only-dev-server'  这个是为了可以不刷新动态替换内容，但多数情况下会报警告，要求刷新页面
-            inline: true,
+            inline: false,
             port: 8080,
             host: '0.0.0.0',
             compress: false,
@@ -97,19 +97,19 @@ module.exports = function (env) {
                         fallback: "style-loader",
                         use: [
                             'css-loader',
-                            'autoprefixer-loader',
+                            'autoprefixer-loader?{browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}',
                         ],
                         // publicPath: "/dist",
                     }),
                 },
                 {
                     test: /\.less$/,
-                    //?{browsers:['> 1%', last 2 version', 'Android >= 4.0']}
+                    //android >= 4.0, ios >= 7.0, last 2 version, > 1%
                     use: ExtractTextPlugin.extract({
                         fallback: "style-loader",
                         use: [
                             'css-loader',
-                            'autoprefixer-loader?{browsers:["> 1%", "Android >= 4.0"]}',
+                            'autoprefixer-loader?{browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}',
                             'less-loader',
                         ],
                         // publicPath: "/dist",

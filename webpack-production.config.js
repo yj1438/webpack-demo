@@ -164,7 +164,7 @@ module.exports = function (env) {
                         fallback: "style-loader",
                         use: [
                             'css-loader',
-                            'autoprefixer-loader?{browsers:["> 1%", "Android >= 4.0"]}',
+                            'autoprefixer-loader?{browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}',
                         ],
                         // publicPath: "/dist",
                     }),
@@ -176,7 +176,7 @@ module.exports = function (env) {
                         fallback: "style-loader",
                         use: [
                             'css-loader',
-                            'autoprefixer-loader?{browsers:["> 1%", "Android >= 4.0"]}',
+                            'autoprefixer-loader?{browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}',
                             'less-loader',
                         ],
                         // publicPath: "/dist",
