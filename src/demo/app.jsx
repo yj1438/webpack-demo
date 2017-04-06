@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'normalize.css';
-import { Router, browserHistory } from 'react-router';
-import routers from './routers';
+import Routers from './routers';
+
 
 //向页面中渲染
-ReactDOM.render(<Router routes={routers} history={browserHistory} />, document.getElementById('app'));
+ReactDOM.render(<Routers />, document.getElementById('app'));

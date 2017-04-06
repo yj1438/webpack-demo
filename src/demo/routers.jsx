@@ -1,18 +1,22 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
-
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom'
 import Frame from './components/frame';
+import Nav from './components/nav';
 import Index from './components/index';
 import Error from './components/error';
 
-const routers = (
-    <Route path="/">
-        <Route path="/demo.html" component={Frame}>
-            <IndexRoute component={Index} />
-            <Route path="index" component={Index} />
-        </Route>
-        <Route path="*" component={Error} />
-    </Route>
+const Routers = () => (
+    <Router>
+        <Frame>
+            <Nav />
+            <Route exact path="/" component={Index} />
+            <Route path="/demo.html" component={Index} />
+            <Route path="*" component={Error} />
+        </Frame>
+    </Router>
 );
 
-export default routers;
+export default Routers;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 
+import '../style/frame.less';
+
 import dataStore from '../stores/dataStore';
 
 @observer
@@ -14,10 +16,11 @@ class Frame extends Component {
 
     render() {
         return (
-            <div className="wrap">
+            <div className="wrap frame">
                 <header>
                     this is frame title dsfs~~ : {this.state.data.title}
                 </header>
+                <hr />
                 {this.props.children}
             </div>
         );
