@@ -27,7 +27,7 @@ class Index extends Component {
     render() {
         return (
             <div>
-                this is index page!!!
+                this is index page!
                 haha !!!
                 welcome to main element.
                 WTF !!!

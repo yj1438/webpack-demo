@@ -50,7 +50,7 @@ module.exports = function (env) {
             contentBase: path.join(__dirname, "www"),   //发布目录
             hot: true,                                  //Live-reload 对应 'webpack/hot/dev-server'
             // hotOnly: true,                           //Live-reload 对应 'webpack/hot/only-dev-server'  这个是为了可以不刷新动态替换内容，但多数情况下会报警告，要求刷新页面
-            inline: false,
+            inline: true,
             port: 8080,
             host: '0.0.0.0',
             compress: false,
@@ -60,6 +60,14 @@ module.exports = function (env) {
         },
         devtool: 'inline-source-map',        // https://webpack.js.org/configuration/devtool/
         plugins: [
+            /*
+             * 将打包环境定为生产环境
+             */
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify('development'),
+                },
+            }),
             //Enables Hot Modules Replacement
             new webpack.HotModuleReplacementPlugin(),
             // prints more readable module names in the browser console on HMR updates

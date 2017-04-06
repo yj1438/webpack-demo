@@ -25,7 +25,7 @@ module.exports = {
         // 将打包环境定为生产环境
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': '"production"',
+                'NODE_ENV': JSON.stringify('production'),
             },
         }),
         // DllPlugin 生成公共模块
