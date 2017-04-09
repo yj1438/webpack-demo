@@ -29,7 +29,7 @@ else {
 /**
  * 是否是监听模式
  */
-if (argv.indexOf('--serve')) {
+if (argv.indexOf('--server') > 1) {
     isServer = true;
 } 
 else if (argv[3] && argv[3] === '--watch') {

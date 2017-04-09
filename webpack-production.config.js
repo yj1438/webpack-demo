@@ -164,7 +164,17 @@ module.exports = function (env) {
                         fallback: "style-loader",
                         use: [
                             'css-loader',
-                            'autoprefixer-loader?{browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    plugins: function () {
+                                        return [
+                                            require('autoprefixer')({browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}),
+                                        ];
+                                    },
+                                },
+                            },
+                            // 'autoprefixer-loader?{browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}',
                         ],
                         // publicPath: "/dist",
                     }),
@@ -176,7 +186,17 @@ module.exports = function (env) {
                         fallback: "style-loader",
                         use: [
                             'css-loader',
-                            'autoprefixer-loader?{browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    plugins: function () {
+                                        return [
+                                            require('autoprefixer')({browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}),
+                                        ];
+                                    },
+                                },
+                            },
+                            // 'autoprefixer-loader?{browsers:["Android >= 4.0", "ios >= 8.0","last 2 version", "> 1%"]}',
                             'less-loader',
                         ],
                         // publicPath: "/dist",
