@@ -89,7 +89,7 @@ module.exports = function (env) {
                     loader: 'eslint-loader',
                     include: [ path.resolve(__dirname, "src") ],
                     query: {
-                        configFile: '.eslintrc.json',
+                        configFile: '.eslintrc',
                     },
                     exclude: [/node_modules/],
                 },
