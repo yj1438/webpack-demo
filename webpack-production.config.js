@@ -137,12 +137,29 @@ module.exports = {
             //外置样式打包
             {
                 test: /\.css/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader?{browsers:['> 1%', 'Android >= 4.0']}"),
+                loader: ExtractTextPlugin.extract("css-loader!autoprefixer-loader?{browsers:['> 1%', 'Android >= 4.0']}"),
             },
             {
-                test: /\.less$/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader?{browsers:['> 1%', 'Android >= 4.0']}!less-loader"),
+                // test: /\.less$/,
+                test(filePath) {
+                    return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath);
+                },
+                loader: ExtractTextPlugin.extract("css-loader!autoprefixer-loader?{browsers:['> 1%', 'Android >= 4.0']}!less-loader"),
             },
+            {
+                test: /\.module\.less$/,
+                loader: ExtractTextPlugin.extract(
+                `${require.resolve('css-loader')}?` +
+                'sourceMap&modules&localIdentName=[local]___[hash:base64:5]&-autoprefixer!' +
+                `${require.resolve('postcss-loader')}!` +
+                `${require.resolve('less-loader')}?` +
+                `{"sourceMap":true,"modifyVars":${JSON.stringify({})}}`
+                ),
+            },
+            // {
+            //     test: /\.less$/,
+            //     loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader?{browsers:['> 1%', 'Android >= 4.0']}!less-loader"),
+            // },
             /**
              * js/jsx 编译
              * @query 编译参数，这里配置后，不再需要.babelrc文件

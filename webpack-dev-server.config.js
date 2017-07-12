@@ -78,13 +78,30 @@ module.exports = {
             //外置样式打包
             {
                 test: /\.css/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader"),
+                loader: ExtractTextPlugin.extract("css-loader!autoprefixer-loader"),
             },
             {
-                test: /\.less$/,
-                //?{browsers:['> 1%', last 2 version', 'Android >= 4.0']}
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!less-loader"),
+                // test: /\.less$/,
+                test(filePath) {
+                    return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath);
+                },
+                loader: ExtractTextPlugin.extract("css-loader!autoprefixer-loader?{browsers:['> 1%', 'Android >= 4.0']}!less-loader"),
             },
+            {
+                test: /\.module\.less$/,
+                loader: ExtractTextPlugin.extract(
+                `${require.resolve('css-loader')}?` +
+                'sourceMap&modules&localIdentName=[local]___[hash:base64:5]&-autoprefixer!' +
+                `${require.resolve('postcss-loader')}!` +
+                `${require.resolve('less-loader')}?` +
+                `{"sourceMap":true,"modifyVars":${JSON.stringify({})}}`
+                ),
+            },
+            // {
+            //     test: /\.less$/,
+            //     //?{browsers:['> 1%', last 2 version', 'Android >= 4.0']}
+            //     loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!less-loader"),
+            // },
             /**
              * 新版的 react-hot 不能局部刷新了？
              */
