@@ -24,7 +24,7 @@ module.exports = {
     output: {
         path: buildPath,                //输出根目录
         publicPath: '',                 // 引用资源文件的base路径
-        filename: './[name].js',        //输出文件名
+        filename: '[name].js',        //输出文件名
     },
     //入口文件配置解析类型
     resolve: {
@@ -36,13 +36,13 @@ module.exports = {
     //server 配置
     devServer: {
         contentBase: 'www', //发布目录
-        devtool: 'cheap-module-eval-source-map',
+        devtool: 'cheap-module-source-map',
         hot: true, //Live-reload
         inline: true,
         host: '0.0.0.0',
         port: 9080,
     },
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'cheap-module-source-map',
     plugins: [
         //Enables Hot Modules Replacement
         new webpack.HotModuleReplacementPlugin(),
@@ -57,7 +57,7 @@ module.exports = {
         ], path.resolve(__dirname, "")),
         */
         //输出 CSS 文件
-        new ExtractTextPlugin("./[name].css"),
+        new ExtractTextPlugin("[name].css"),
     ],
     module: {
         //构建前置加载器
@@ -73,7 +73,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.jpe?g$|\.gif$|\.png$/i,
-                loader: "url-loader?limit=8192&name=./[name].[ext]",
+                loader: "url-loader?limit=8192&name=[name].[ext]",
             },
             //外置样式打包
             {
@@ -105,28 +105,33 @@ module.exports = {
             /**
              * 新版的 react-hot 不能局部刷新了？
              */
+            // {
+            //     test: /\.(js|jsx)$/,
+            //     loader: 'react-hot',
+            //     include: [path.join(__dirname, '/src')],
+            //     exclude: function (filePath) {
+            //         const isNpmModule = !!filePath.match(/node_modules/);
+            //         return isNpmModule;
+            //     },
+            // },
             {
                 test: /\.(js|jsx)$/,
-                loader: 'react-hot',
-                include: [path.join(__dirname, '/src')],
-                exclude: function (filePath) {
-                    const isNpmModule = !!filePath.match(/node_modules/);
-                    return isNpmModule;
-                },
+                loader: 'bundle?lazy&name=[name].app',
+                include: /\/routers\//,
             },
             {
                 test: /\.(js|jsx)$/,
                 loader: 'babel',
-                include: [path.join(__dirname, '/src')],
                 exclude: function (filePath) {
                     const isNpmModule = !!filePath.match(/node_modules/);
                     return isNpmModule;
                 },
                 query: {
-                    plugins: ['transform-runtime', 'transform-decorators-legacy', 'transform-class-properties'],
-                    presets: ['es2015', 'react'],
+                    plugins: ['transform-runtime', 'transform-decorators-legacy', 'transform-decorators-legacy', 'transform-class-properties'],
+                    presets: ['es2015', 'react', 'stage-2'],
                 },
             },
+            
         ],
     },
     //eslint config 文件配置路径

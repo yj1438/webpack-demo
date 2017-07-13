@@ -1,18 +1,29 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 
 import Frame from './components/frame';
 import Index from './routers/index';
+import Detail from './routers/detail';
 import Error from './routers/error';
 
+const isReactComponent = (obj) => Boolean(obj && obj.prototype && Boolean(obj.prototype.isReactComponent));
+
+const component = (component) => {
+    return isReactComponent(component)
+        ? {component}
+        : {getComponent: (loc, cb)=> component(
+            comp=> cb(null, comp.default || comp))}
+};
+
 const routers = (
-    <Route path="/">
-        <Route path="/(:base)/demo" component={Frame}>
-            <IndexRoute component={Index} />
-            <Route path="index" component={Index} />
+    <Router>
+        <Route path="/" component={Frame}>
+            <IndexRoute {...component(Index)} />
+            <Route path="index.html" {...component(Index)} />
+            <Route path="detail.html" {...component(Detail)} />
         </Route>
         <Route path="*" component={Error} />
-    </Route>
+    </Router>
 );
 
 export default routers;

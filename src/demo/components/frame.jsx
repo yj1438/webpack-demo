@@ -16,7 +16,7 @@ class Frame extends Component {
         return (
             <div className="wrap">
                 <header>
-                    this is frame title dsfs~~ : {this.state.data.title}
+                    this is frame title: {this.state.data.title}
                 </header>
                 {this.props.children}
             </div>

@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 
 import dataStore from '../stores/dataStore';
 
+// lazy
+import LazyComponent from 'bundle-loader?lazy&name=lazy_[name]!../components/lazyComponent.jsx';
+import LazyLoader from '../common/lazyloader';
+
+console.log(LazyComponent);
+debugger;
+
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -20,17 +27,12 @@ class Index extends Component {
 
     }
 
-    // _bindInputTitle() {
-    //     dataStore.inputTitle('this is new title!');
-    // }
-
     render() {
         return (
             <div>
-                this is index page!!! fdsfs
-                welcome to main element.
-                WTF !!!
+                this is index page!!!
                 <button type="button" onClick={this.store.inputTitle.bind(this.store, 'this is new title ttt!')}>click this!</button>
+                <LazyLoader component={LazyComponent} name={'lazyname'} tips={'lazytips'}/>
             </div>
         );
     }
