@@ -20,7 +20,8 @@ class Detail extends Component {
     render() {
         return (
             <div>
-              this is detail page;
+              this is detail page; <br/>
+              awosome ~~~
             </div>
         );
     }

@@ -6,9 +6,6 @@ import dataStore from '../stores/dataStore';
 import LazyComponent from 'bundle-loader?lazy&name=lazy_[name]!../components/lazyComponent.jsx';
 import LazyLoader from '../common/lazyloader';
 
-console.log(LazyComponent);
-debugger;
-
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +27,7 @@ class Index extends Component {
     render() {
         return (
             <div>
-                this is index page!!!
+                this is index page!!! haha~~~AAA
                 <button type="button" onClick={this.store.inputTitle.bind(this.store, 'this is new title ttt!')}>click this!</button>
                 <LazyLoader component={LazyComponent} name={'lazyname'} tips={'lazytips'}/>
             </div>

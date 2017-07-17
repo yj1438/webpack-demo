@@ -3,7 +3,8 @@
  */
 const webpack = require('webpack'),
     path = require('path'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin');
+    ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const buildPath = path.resolve(__dirname, 'build'),
     nodeModulesPath = path.resolve(__dirname, 'node_modules');
@@ -15,16 +16,16 @@ const buildPath = path.resolve(__dirname, 'build'),
 const enterFile = 'demo/app.jsx';
 //===========================================
 
-module.exports = {
+const webpackConfig = {
     //总入口文件
     entry: {
-        server: [ 'webpack/hot/dev-server', 'webpack/hot/only-dev-server' ],
-        app: path.join(__dirname, 'src', enterFile),
+        'hot-server': ['webpack/hot/dev-server', 'webpack/hot/only-dev-server'],
+        'app': path.join(__dirname, 'src', enterFile),
     },
     output: {
         path: buildPath,                //输出根目录
         publicPath: '',                 // 引用资源文件的base路径
-        filename: '[name].js',        //输出文件名
+        filename: '[name].js?[hash]',        //输出文件名
     },
     //入口文件配置解析类型
     resolve: {
@@ -44,20 +45,14 @@ module.exports = {
     },
     devtool: 'cheap-module-source-map',
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': '"development"',
+        }),
         //Enables Hot Modules Replacement
         new webpack.HotModuleReplacementPlugin(),
         //Allows error warnings but does not stop compiling. Will remove when eslint is added
         // new webpack.NoErrorsPlugin(),
-        //移动文件，如果发布目录和编辑目录不一致时，可以配置此项将编辑的 www 内容文件转移到发布目录
-        /*
-        new TransferWebpackPlugin([
-            {
-                from: 'www'
-            }
-        ], path.resolve(__dirname, "")),
-        */
-        //输出 CSS 文件
-        new ExtractTextPlugin("[name].css"),
+        new ExtractTextPlugin("[name].css?[hash]"),
     ],
     module: {
         //构建前置加载器
@@ -102,30 +97,16 @@ module.exports = {
             //     //?{browsers:['> 1%', last 2 version', 'Android >= 4.0']}
             //     loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!less-loader"),
             // },
-            /**
-             * 新版的 react-hot 不能局部刷新了？
-             */
-            // {
-            //     test: /\.(js|jsx)$/,
-            //     loader: 'react-hot',
-            //     include: [path.join(__dirname, '/src')],
-            //     exclude: function (filePath) {
-            //         const isNpmModule = !!filePath.match(/node_modules/);
-            //         return isNpmModule;
-            //     },
-            // },
             {
                 test: /\.(js|jsx)$/,
                 loader: 'bundle?lazy&name=[name].app',
                 include: /\/routers\//,
             },
+            { test: /\.jsx?$/, loaders: ['react-hot', 'jsx?harmony'], exclude: /node_modules/ },
             {
                 test: /\.(js|jsx)$/,
                 loader: 'babel',
-                exclude: function (filePath) {
-                    const isNpmModule = !!filePath.match(/node_modules/);
-                    return isNpmModule;
-                },
+                exclude: /node_modules/,
                 query: {
                     plugins: ['transform-runtime', 'transform-decorators-legacy', 'transform-decorators-legacy', 'transform-class-properties'],
                     presets: ['es2015', 'react', 'stage-2'],
@@ -139,3 +120,13 @@ module.exports = {
         configFile: '.eslintrc.json',
     },
 };
+// 模板
+const htmlPluginTpl = ['index', 'detail'].map(function (item) {
+    return new HtmlWebpackPlugin({
+        filename: item + '.html',
+        template: 'src/demo/tpl/index.html',
+    });
+});
+webpackConfig.plugins = webpackConfig.plugins.concat(htmlPluginTpl);
+
+module.exports = webpackConfig;
