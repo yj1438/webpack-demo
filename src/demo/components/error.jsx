@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
 
 class Error extends Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentWillMount() {
+  componentWillMount() {
 
-    }
+  }
 
-    componentDidMount() {
+  componentDidMount() {
 
-    }
+  }
 
-    componentWillUnmount() {
+  componentWillUnmount() {
 
-    }
+  }
 
-    render() {
-        return (
-            <div>
-                This is page is not found!
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        This is page is not found!
+      </div>
+    );
+  }
 }
 
 Error.propTypes = {

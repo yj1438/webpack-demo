@@ -74,3 +74,9 @@ node wpbuild --demo --server
 ## 其它
 
 支持 mobx 的注解。内置一个 demo 例子，可以自己尝试。
+
+## for test
+
+`./node_modules/.bin/webpack --config webpack-production.config.js --progress --colors --env.app=demo/app.jsx`
+
+`./node_modules/.bin/webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors --env.app=demo/app.jsx`

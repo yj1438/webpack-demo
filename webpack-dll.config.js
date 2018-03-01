@@ -7,7 +7,6 @@ const path = require('path'),
   webpack = require('webpack');
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const ClosurePlugin = require('closure-webpack-plugin');
 
 // dist 路径相关
 const distPath = path.resolve(__dirname, 'dist');
@@ -22,13 +21,8 @@ module.exports = {
     filename: '[name].[chunkhash].dll.js',
     library: '[name]_lib',
   },
+  mode: 'production',
   plugins: [
-    // 将打包环境定为生产环境
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': '"production"',
-      },
-    }),
     // DllPlugin 生成公共模块
     new webpack.DllPlugin({
       /*
@@ -46,13 +40,5 @@ module.exports = {
     }),
     //压缩
     new UglifyJsPlugin(),
-    // new ClosurePlugin({mode: 'STANDARD'}, {
-      // compiler flags here
-      //
-      // for debuging help, try these:
-      //
-      // formatting: 'PRETTY_PRINT',
-      // debug: true,
-    // }),
   ],
 };

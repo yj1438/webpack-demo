@@ -2,21 +2,21 @@ import { observable, computed } from 'mobx';
 
 class DataStore {
 
-    @observable title = 'TITLE HAHA ~~ !!!';
+  @observable title = 'TITLE HAHA ~~ !!!';
 
-    @observable list = [];
+  @observable list = [];
 
-    @computed get listCount() {
-        return this.list.length;
-    }
+  @computed get listCount() {
+    return this.list.length;
+  }
 
-    inputTitle(title) {
-        this.title = title;
-    }
+  inputTitle(title) {
+    this.title = title;
+  }
 
-    add(data) {
-        this.list.push(data);
-    }
+  add(data) {
+    this.list.push(data);
+  }
 
 }
 
