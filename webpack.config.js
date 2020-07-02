@@ -19,24 +19,29 @@ const postcssOpt = {
   }
 };
 
-module.exports = function (env) {
-  let projectEntryFile = env.app;
-  if (!projectEntryFile) {
-    console.log('缺少入口文件，请添加参数: --env.path=<项目入口文件/目录>');
-    return null;
-  }
-  const projectPathArr = projectEntryFile.split('/');
-  if (projectPathArr.length === 1 || !projectPathArr[1]) {
-    projectPathArr[1] = 'app.jsx';
-  }
-  projectEntryFile = projectPathArr.join('/');
-  console.log('开始构建文件：' + projectEntryFile);
+const serverOpt = {
+  // contentBase: path.join(__dirname, "www"),   //发布目录
+  hot: true,                                  //Live-reload
+  hotOnly: true,
+  inline: true,
+  host: '0.0.0.0',
+  compress: false,
+  lazy: false,
+  clientLogLevel: 'none',                     //none, error, warning or info
+  port: 9080,
+  // publicPath: "http://localhost:8080/static/",
+};
 
+module.exports = function (env) {
+  console.log(env);
+  const isDev = env.NODE_ENV === 'development';
+  console.log('development ' + isDev);
+  console.log('开始构建文件：src/demo/app.jsx');
   return {
     //总入口文件
     context: path.resolve(__dirname, "src"),
     entry: {
-      app: './' + projectEntryFile,
+      app: './demo/app.jsx',
     },
     output: {
       // path: ''                     // server 不用指定path
@@ -48,24 +53,13 @@ module.exports = function (env) {
       extensions: ['.js', '.jsx'],
       modules: ['node_modules'],
     },
-    mode: 'development',
+    mode: isDev ? 'development' : 'production',
     //server 配置
-    devServer: {
-      // contentBase: path.join(__dirname, "www"),   //发布目录
-      hot: true,                                  //Live-reload
-      hotOnly: true,
-      inline: true,
-      host: '0.0.0.0',
-      compress: false,
-      lazy: false,
-      clientLogLevel: 'none',                     //none, error, warning or info
-      port: 9080,
-      // publicPath: "http://localhost:8080/static/",
-    },
+    devServer: isDev ? serverOpt : undefined,
     devtool: 'inline-source-map',        // https://webpack.js.org/configuration/devtool/
     plugins: [
       //Enables Hot Modules Replacement
-      new webpack.HotModuleReplacementPlugin(),
+      ...(isDev ? [new webpack.HotModuleReplacementPlugin()] : []),
       //输出 CSS 文件
       new ExtractTextPlugin({
         filename: "./[name].css",
@@ -130,12 +124,12 @@ module.exports = function (env) {
             ],
           }),
         },
-        {
+        isDev ? {
           test: /\.(js|jsx)$/,
           loader: 'react-hot-loader',
           include: [path.join(__dirname, '/src')],
           exclude: [/node_modules/],
-        },
+        } : {},
         {
           test: /\.(js|jsx)$/,
           loader: 'babel-loader',

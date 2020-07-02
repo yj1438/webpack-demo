@@ -45,11 +45,11 @@ let execCommand,
     execCommandBin,
     execCommandParam;
 if (!isServer) {
-    execCommand = 'webpack --config webpack-production.config.js --progress --colors' +
+    execCommand = './node_modules/.bin/webpack --config webpack-production.config.js --progress --colors' +
                     (isWatch ? ' --watch' : '') +
                     ' --env.app=' + pathArr.join('/');
 } else {
-    execCommand = 'webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors --env.app=' + pathArr.join('/');
+    execCommand = './node_modules/.bin/webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors --env.app=' + pathArr.join('/');
 }
 const params = execCommand.split(' ');
 execCommandBin = params.shift(0);
